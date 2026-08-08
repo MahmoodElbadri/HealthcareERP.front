@@ -1,0 +1,56 @@
+<div class="container mt-3 pt-3">
+    <div class="">
+        <h1>Add Doctor</h1>
+    </div>
+    <div class="">
+        @if (isLoading()) {
+            <div
+              class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-white bg-opacity-75 z-3"
+              style="backdrop-filter: blur(2px)"
+            >
+              <div
+                class="spinner-border text-primary"
+                role="status"
+                style="width: 4rem; height: 4rem"
+              >
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          }
+        <form (ngSubmit)="onSubmit()" [formGroup]="doctorForm">
+            <div class="form-control mt-3">
+                <label for="name">Name</label>
+                <input type="text" id="name" formControlName="name" class="form-control">
+                @if(doctorForm.get('name')?.invalid && doctorForm.get('name')?.touched) {
+                    <small class="text-danger">Name is required</small>
+                }
+            </div>
+            <div class="form-control mt-3">
+                <label for="specialty">Specialty</label>
+                <!-- <input type="text" id="specialty" formControlName="specialty" class="form-control"> -->
+                 <select for="specialty" formControlName="specialty" class="form-select">
+                    @for (item of specialities; track $index) {
+                        <option [value]="item.name">{{ item.name }}</option>
+                    }
+                 </select>
+                @if(doctorForm.get('specialty')?.invalid && doctorForm.get('specialty')?.touched) {
+                    <small class="text-danger">Specialty is required</small>
+                }
+            </div>
+            <div class="form-control mt-3">
+                <label for="phoneNumber">Phone Number</label>
+                <input type="text" id="phoneNumber" formControlName="phoneNumber" class="form-control">
+                @if(doctorForm.get('phoneNumber')?.invalid && doctorForm.get('phoneNumber')?.touched) {
+                    <small class="text-danger">Phone Number is required</small>
+                }
+                @if(doctorForm.get('phoneNumber')?.hasError('minlength') && doctorForm.get('phoneNumber')?.touched) {
+                    <small class="text-danger">Phone Number must be at exact 11 digits</small>
+                }
+            </div>
+            <div class="row mt-3 justify-content-center">
+                <button type="submit"  class="btn btn-primary mt-3 me-4 col-4" [disabled]="doctorForm.invalid">Add Doctor</button>
+                <button type="button"  class="btn btn-danger mt-3 ms-4 col-4" [routerLink]="['/doctors']">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
