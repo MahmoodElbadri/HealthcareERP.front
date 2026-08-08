@@ -1,0 +1,187 @@
+<div class="container py-5 doctor-dashboard">
+  <!-- Header & Stats Header -->
+  <div class="row align-items-center mb-5">
+    <div class="col-md-6 mb-3 mb-md-0">
+      <h1 class="dashboard-title">Medical Staff</h1>
+      <p class="dashboard-subtitle text-muted">Manage and view the healthcare specialists active in the system</p>
+    </div>
+    <div class="col-md-6 d-flex justify-content-md-end gap-3 stats-row">
+      <!-- Total Doctors Stat Card -->
+      <div class="stat-card">
+        <div class="stat-icon-wrapper blue">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-value">{{ doctors.length }}</span>
+          <span class="stat-label">Total Doctors</span>
+        </div>
+      </div>
+      <!-- Unique Specialties Stat Card -->
+      <div class="stat-card">
+        <div class="stat-icon-wrapper teal">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 6v12"/><path d="M6 12h12"/></svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-value">{{ getUniqueSpecialties().length }}</span>
+          <span class="stat-label">Specialties</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search & Filter Controls -->
+  <div class="filter-bar p-3 mb-4 d-flex flex-column flex-md-row justify-content-between align-items-stretch align-items-md-center gap-3">
+    <div class="d-flex flex-column flex-sm-row gap-3 flex-grow-1">
+      <!-- Search Input -->
+      <div class="search-input-wrapper">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input 
+          type="text" 
+          class="form-control" 
+          placeholder="Search by name, specialty, phone..."
+          [(ngModel)]="searchQuery"
+        />
+      </div>
+
+      <!-- Specialty Dropdown Filter -->
+      <div class="filter-select-wrapper">
+        <select class="form-select" [(ngModel)]="selectedSpecialty">
+          <option value="">All Specialties</option>
+          @for (specialty of getUniqueSpecialties(); track specialty) {
+            <option [value]="specialty">{{ specialty }}</option>
+          }
+        </select>
+      </div>
+    </div>
+
+    <!-- Layout Toggle Switcher -->
+    <div class="d-flex align-items-center gap-2 justify-content-end">
+      <span class="text-muted d-none d-sm-inline me-1 text-uppercase small tracking-wide">Layout</span>
+      <div class="btn-group view-toggle-group" role="group">
+        <button 
+          type="button" 
+          class="btn btn-outline-light d-flex align-items-center justify-content-center"
+          [class.active]="viewMode === 'grid'"
+          (click)="viewMode = 'grid'"
+          title="Grid View"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        </button>
+        <button 
+          type="button" 
+          class="btn btn-outline-light d-flex align-items-center justify-content-center"
+          [class.active]="viewMode === 'table'"
+          (click)="viewMode = 'table'"
+          title="Table View"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Doctors Area -->
+  @if (filteredDoctors.length > 0) {
+    
+    <!-- CARD GRID VIEW -->
+    @if (viewMode === 'grid') {
+      <div class="doctor-grid row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+        @for (doctor of filteredDoctors; track doctor.id) {
+          <div class="col">
+            <div class="doctor-card">
+              <div class="doctor-card-header d-flex align-items-center justify-content-between">
+                <div class="avatar-circle">
+                  <span>{{ getInitials(doctor.name) }}</span>
+                </div>
+                <span class="specialty-badge">{{ doctor.specialty || 'General Practice' }}</span>
+              </div>
+              
+              <div class="doctor-card-body mt-4">
+                <h3 class="doctor-name">{{ doctor.name }}</h3>
+                <p class="doctor-role text-muted">Healthcare Practitioner</p>
+                
+                <hr class="card-divider">
+                
+                <div class="doctor-contact-info d-flex align-items-center mt-3 gap-2">
+                  <div class="contact-icon-wrapper">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  </div>
+                  <span class="phone-number">{{ doctor.phoneNumber || 'No phone recorded' }}</span>
+                </div>
+              </div>
+              
+              <div class="doctor-card-footer mt-4 d-flex justify-content-end gap-2">
+                <button class="btn btn-sm btn-link text-uppercase tracking-wider px-0 py-1 font-semibold text-primary decoration-none hover-move-right">
+                  View Details <span class="arrow-symbol">→</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- TABLE VIEW -->
+    @if (viewMode === 'table') {
+      <div class="table-card p-0 overflow-hidden border-0">
+        <div class="table-responsive">
+          <table class="table doctor-table align-middle mb-0">
+            <thead>
+              <tr>
+                <th scope="col" class="ps-4">No.</th>
+                <th scope="col">Practitioner</th>
+                <th scope="col">Specialty</th>
+                <th scope="col">Phone Contact</th>
+                <th scope="col" class="text-end pe-4">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (doctor of filteredDoctors; track doctor.id; let i = $index) {
+                <tr class="table-row-hover">
+                  <td class="ps-4 font-monospace text-muted">{{ i + 1 }}</td>
+                  <td>
+                    <div class="d-flex align-items-center gap-3">
+                      <div class="avatar-circle-sm">
+                        <span>{{ getInitials(doctor.name) }}</span>
+                      </div>
+                      <div>
+                        <span class="d-block doctor-table-name">{{ doctor.name }}</span>
+                        <span class="d-block text-muted small">ID: {{ doctor.id }}</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="specialty-badge-table">{{ doctor.specialty || 'General Practice' }}</span>
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <svg class="text-muted" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                      <span class="phone-text">{{ doctor.phoneNumber || '—' }}</span>
+                    </div>
+                  </td>
+                  <td class="text-end pe-4">
+                    <button class="btn btn-sm btn-outline-dark text-uppercase tracking-wider px-3 py-1 font-semibold">
+                      Manage
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    }
+
+  } @else {
+    <div class="empty-state-card py-5 text-center d-flex flex-column align-items-center justify-content-center">
+      <div class="empty-state-illustration mb-4">
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-muted"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+      </div>
+      <h3 class="empty-state-title">No Medical Staff Found</h3>
+      <p class="empty-state-description text-muted">We couldn't find any doctor matching your search filters.</p>
+      <button class="btn btn-dark text-uppercase mt-2" (click)="searchQuery = ''; selectedSpecialty = ''">
+        Reset All Filters
+      </button>
+    </div>
+  }
+</div>
