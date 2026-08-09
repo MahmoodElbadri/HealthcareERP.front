@@ -33,7 +33,7 @@
   }
 }
 
-.doctor-form-container {
+.patient-form-container {
   animation: slideUp 0.5s var(--transition-bezier);
   position: relative;
 }

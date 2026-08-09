@@ -1,4 +1,4 @@
-<div class="container py-5 doctor-form-container">
+<div class="container py-5 patient-form-container">
   
   @if (isLoading()) {
     <div class="loading-overlay">
@@ -12,7 +12,7 @@
     <div class="col-12 col-md-10 col-lg-8 col-xl-7">
       
       <!-- Back to List Link -->
-      <a [routerLink]="['/doctors']" class="back-link mb-4 d-inline-flex align-items-center gap-2">
+      <a [routerLink]="['/patients']" class="back-link mb-4 d-inline-flex align-items-center gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
         Back to Directory
       </a>
@@ -33,7 +33,7 @@
             <div>
               <h1 class="form-title m-0">{{ formTitle }}</h1>
               <p class="form-subtitle text-muted m-0 mt-1">
-                {{ formMode === 'add' ? 'Register a new medical practitioner to the system' : 'Update practitioner details in the system' }}
+                {{ formMode === 'add' ? 'Register a new patient to the system' : 'Update patient details in the system' }}
               </p>
             </div>
           </div>
@@ -50,7 +50,7 @@
 
         <!-- Form Body -->
         <div class="form-card-body mt-4">
-          <form (ngSubmit)="onSubmit()" [formGroup]="doctorForm">
+          <form (ngSubmit)="onSubmit()" [formGroup]="patientForm">
             
             <div class="row g-4">
               <!-- Name Input -->
@@ -64,11 +64,11 @@
                       id="name" 
                       formControlName="name" 
                       class="form-control form-control-lg" 
-                      placeholder="e.g. Dr. John Doe"
-                      [class.is-invalid]="doctorForm.get('name')?.invalid && doctorForm.get('name')?.touched"
+                      placeholder="e.g. John Doe"
+                      [class.is-invalid]="patientForm.get('name')?.invalid && patientForm.get('name')?.touched"
                     />
                   </div>
-                  @if (doctorForm.get('name')?.invalid && doctorForm.get('name')?.touched) {
+                  @if (patientForm.get('name')?.invalid && patientForm.get('name')?.touched) {
                     <div class="invalid-feedback d-flex align-items-center gap-1 mt-2">
                       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
                       <span>Valid full name is required (min 3 chars).</span>
@@ -77,35 +77,57 @@
                 </div>
               </div>
 
-              <!-- Specialty Select -->
+              <!-- Date of Birth Input -->
               <div class="col-12 col-md-6">
                 <div class="form-group">
-                  <label for="specialty" class="form-label">Medical Specialty</label>
+                  <label for="dateOfBirth" class="form-label">Date of Birth</label>
                   <div class="input-icon-wrapper">
-                    <svg class="input-icon z-10" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 6v12"/><path d="M6 12h12"/></svg>
-                    <select 
-                      id="specialty" 
-                      formControlName="specialty" 
-                      class="form-select form-select-lg ps-5"
-                      [class.is-invalid]="doctorForm.get('specialty')?.invalid && doctorForm.get('specialty')?.touched"
-                    >
-                      <option value="" disabled selected>Select a specialty</option>
-                      @for (item of specialities; track $index) {
-                        <option [value]="item.name">{{ item.name }}</option>
-                      }
-                    </select>
+                    <svg class="input-icon z-10" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    <input 
+                      type="date" 
+                      id="dateOfBirth" 
+                      formControlName="dateOfBirth" 
+                      class="form-control form-control-lg ps-5"
+                      [class.is-invalid]="patientForm.get('dateOfBirth')?.invalid && patientForm.get('dateOfBirth')?.touched"
+                    />
                   </div>
-                  @if (doctorForm.get('specialty')?.invalid && doctorForm.get('specialty')?.touched) {
+                  @if (patientForm.get('dateOfBirth')?.invalid && patientForm.get('dateOfBirth')?.touched) {
                     <div class="invalid-feedback d-flex align-items-center gap-1 mt-2">
                       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                      <span>Please assign a specialty.</span>
+                      <span>Please enter date of birth.</span>
+                    </div>
+                  }
+                </div>
+              </div>
+
+              <!-- Gender Select -->
+              <div class="col-12 col-md-6">
+                <div class="form-group">
+                  <label for="gender" class="form-label">Gender</label>
+                  <div class="input-icon-wrapper">
+                    <svg class="input-icon z-10" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-7"/><circle cx="12" cy="7" r="4"/><path d="M10 19h4"/></svg>
+                    <select 
+                      id="gender" 
+                      formControlName="gender" 
+                      class="form-select form-select-lg ps-5"
+                      [class.is-invalid]="patientForm.get('gender')?.invalid && patientForm.get('gender')?.touched"
+                    >
+                      <option value="" disabled selected>Select gender</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                    </select>
+                  </div>
+                  @if (patientForm.get('gender')?.invalid && patientForm.get('gender')?.touched) {
+                    <div class="invalid-feedback d-flex align-items-center gap-1 mt-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                      <span>Please select gender.</span>
                     </div>
                   }
                 </div>
               </div>
 
               <!-- Phone Number Input -->
-              <div class="col-12 col-md-6">
+              <div class="col-12 col-md-12">
                 <div class="form-group">
                   <label for="phoneNumber" class="form-label">Phone Number</label>
                   <div class="input-icon-wrapper">
@@ -116,16 +138,16 @@
                       formControlName="phoneNumber" 
                       class="form-control form-control-lg"
                       placeholder="11 digits e.g. 01012345678"
-                      [class.is-invalid]="doctorForm.get('phoneNumber')?.invalid && doctorForm.get('phoneNumber')?.touched"
+                      [class.is-invalid]="patientForm.get('phoneNumber')?.invalid && patientForm.get('phoneNumber')?.touched"
                     />
                   </div>
-                  @if (doctorForm.get('phoneNumber')?.invalid && doctorForm.get('phoneNumber')?.touched) {
+                  @if (patientForm.get('phoneNumber')?.invalid && patientForm.get('phoneNumber')?.touched) {
                     <div class="invalid-feedback d-flex flex-column gap-1 mt-2">
                       <div class="d-flex align-items-center gap-1">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
                         <span>Phone Number is required.</span>
                       </div>
-                      @if (doctorForm.get('phoneNumber')?.hasError('minlength') || doctorForm.get('phoneNumber')?.hasError('maxlength')) {
+                      @if (patientForm.get('phoneNumber')?.hasError('minlength') || patientForm.get('phoneNumber')?.hasError('maxlength')) {
                         <div class="d-flex align-items-center gap-1">
                           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
                           <span>Must be exactly 11 digits.</span>
@@ -138,17 +160,17 @@
             </div>
 
             <div class="form-actions mt-5 pt-3 d-flex flex-column flex-sm-row justify-content-end gap-3 border-top">
-              <button type="button" class="btn btn-outline-secondary btn-lg font-semibold text-uppercase tracking-wide" [routerLink]="['/doctors']">
+              <button type="button" class="btn btn-outline-secondary btn-lg font-semibold text-uppercase tracking-wide" [routerLink]="['/patients']">
                 Cancel
               </button>
               <button 
                 type="submit" 
                 class="btn btn-primary btn-lg font-semibold text-uppercase tracking-wide d-flex justify-content-center align-items-center gap-2" 
-                [disabled]="doctorForm.invalid || isSubmitted"
+                [disabled]="isSubmitted"
               >
                 @if (formMode === 'add') {
                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-                  Register Doctor
+                  Register Patient
                 } @else {
                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                   Save Changes

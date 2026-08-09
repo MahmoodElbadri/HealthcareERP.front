@@ -23,4 +23,16 @@ export class DoctorsService {
   addDoctor(doctor: DoctorDto): Observable<ApiResponse<DoctorDto>> {
     return this.http.post<ApiResponse<DoctorDto>>(`${this.apiUrl}/AddDoctor`, doctor);
   }
+
+  getDoctorById(id: number): Observable<ApiResponse<DoctorDto>> {
+    return this.http.get<ApiResponse<DoctorDto>>(`${this.apiUrl}/GetDoctorById/${id}`);
+  }
+
+  updateDoctor(id: number, doctor: DoctorDto): Observable<ApiResponse<DoctorDto>> {
+    return this.http.put<ApiResponse<DoctorDto>>(`${this.apiUrl}/UpdateDoctor/${id}`, doctor);
+  }
+
+  deleteDoctor(id: number): Observable<ApiResponse<boolean>> {
+    return this.http.delete<ApiResponse<boolean>>(`${this.apiUrl}/DeleteDoctor/${id}`);
+  }
 }
