@@ -1,55 +1,80 @@
-<div class="container pt-3 mt-3" >
+<div class="appointment-container pt-3 mt-3">
   <!-- Page header -->
-  <div class="page-header">
-    <div class="row">
-        <div class="d-flex justify-content-between ">
-            <h1>Appointment List</h1>
-            <div class="form-floating ">
-            <select [(ngModel)]="selectedDoctor" (change)="onChange()"  class="form-select"  name="doctor" id="doctor">
-                <option value="">Select Doctor</option>
-                @for (doctor of doctors; track $index) {
-                    <option onchange="getDoctorAppointment(doctor.id)" value="{{doctor.id}}">{{doctor.name}}</option>
-                }
-            </select>
-            <label for="doctor">Doctor</label>
+  <div class="page-header mb-4 px-3">
+    <div class="d-flex justify-content-between align-items-end flex-wrap gap-3">
+      <div>
+        <h1 class="page-title m-0">Appointment List</h1>
+        <nav aria-label="breadcrumb" class="mt-2">
+          <ol class="breadcrumb custom-breadcrumb">
+            <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Home</a></li>
+            <li class="breadcrumb-item active">Appointment List</li>
+          </ol>
+        </nav>
+      </div>
+      <div class="filter-section">
+        <div class="form-floating shadow-sm custom-floating">
+          <select [(ngModel)]="selectedDoctor" (change)="onChange()" class="form-select custom-select" name="doctor" id="doctor">
+            <option value="">All Doctors</option>
+            @for (doctor of doctors; track $index) {
+              <option value="{{doctor.id}}">{{doctor.name}}</option>
+            }
+          </select>
+          <label for="doctor">Filter by Doctor</label>
         </div>
+      </div>
     </div>
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="#">Home</a></li>
-      <li class="breadcrumb-item active">Appointment List</li>
-    </ol>
   </div>
   <!-- End Page header -->
 
-  <div class="row">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-      <div class="card">
-        <div class="card-header">
-          <h2>Appointment List</h2>
+  <div class="row px-3">
+    <div class="col-12">
+      <div class="card custom-card border-0 shadow-lg fade-in-up">
+        <div class="card-header bg-transparent border-0 pt-4 pb-0 px-4">
+          <h2 class="card-title h4 mb-0">Appointments Overview</h2>
         </div>
-        <div class="card-body">
-          <table class="table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th>Queue Number</th>
-                <th>Date</th>
-                <th>Patient</th>
-                <th>Doctor</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (appointment of appointments; track $index) {
+        <div class="card-body p-4">
+          <div class="table-responsive">
+            <table class="table custom-table align-middle">
+              <thead>
                 <tr>
-                  <td>{{ appointment.queueNumber }}</td>
-                  <td>{{ appointment.appointmentDate | date: 'dd/MM/yyyy' }}</td>
-                  <td>{{ appointment.patientName }}</td>
-                  <td>{{ appointment.doctorName }}</td>
-                  <td>{{ appointment.status }}</td>
+                  <th>Queue Number</th>
+                  <th>Date</th>
+                  <th>Patient</th>
+                  <th>Doctor</th>
+                  <th>Status</th>
                 </tr>
-              }
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                @for (appointment of appointments; track $index) {
+                  <tr class="table-row-hover">
+                    <td>
+                      <span class="badge queue-badge">#{{ appointment.queueNumber }}</span>
+                    </td>
+                    <td>
+                      <div class="date-cell">
+                        <i class="bi bi-calendar-event me-2 text-primary"></i>
+                        {{ appointment.appointmentDate | date: 'dd/MM/yyyy' }}
+                      </div>
+                    </td>
+                    <td class="fw-bold text-dark">{{ appointment.patientName }}</td>
+                    <td class="text-secondary">{{ appointment.doctorName }}</td>
+                    <td>
+                      <span class="status-badge" [ngClass]="appointment.status ? appointment.status.toLowerCase() : ''">
+                        {{ appointment.status }}
+                      </span>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+            
+            @if (appointments.length === 0) {
+              <div class="text-center py-5 empty-state">
+                 <i class="bi bi-inbox fs-1 text-muted mb-3 d-block"></i>
+                 <p class="text-muted fs-5">No appointments found</p>
+              </div>
+            }
+          </div>
         </div>
       </div>
     </div>

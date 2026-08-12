@@ -5,13 +5,13 @@ import { AppointmentDTO } from '../models/appointment-dto';
 import { FormGroup } from '@angular/forms';
 import { AppointmentService } from '../appointment-service';
 import { ToastrService } from 'ngx-toastr';
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiResponse } from '../../../core/ApiResponse';
 
 @Component({
   selector: 'app-appointment-list-component',
-  imports: [DatePipe, FormsModule],
+  imports: [DatePipe, FormsModule, NgClass],
   templateUrl: './appointment-list-component.html',
   styleUrl: './appointment-list-component.css',
 })
