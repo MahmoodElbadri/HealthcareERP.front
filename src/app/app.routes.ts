@@ -10,6 +10,10 @@ export const routes: Routes = [
         loadChildren: () => import('./features/Patients/patients.routes').then((m) => m.PATIENTS_ROUTES)
     },
     {
+        path: 'appointments',
+        loadChildren: () => import('./features/Appointments/appointments.routes').then((m) => m.APPOINTMENT_ROUTES)
+    },
+    {
         path: '',
         redirectTo: 'doctors',
         pathMatch: 'full'

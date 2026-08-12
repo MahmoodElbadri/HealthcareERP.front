@@ -1,0 +1,48 @@
+<div class="container mt-5">
+  <div class="header">
+    <h1>Add Appointment</h1>
+  </div>
+  <div class="mt-5 px-5">
+    <form [formGroup]="addAppointment" (ngSubmit)="onSubmit()">
+      <div class="form-control mt-3">
+        <label for="appointmentDate">Appointment Date</label>
+        <input
+          type="date"
+          class="form-control"
+          id="appointmentDate"
+          formControlName="appointmentDate"
+        />
+      </div>
+      <div class="form-control mt-3">
+        <label for="patientId">Patient</label>
+        <select class="form-control" id="patientId" formControlName="patientId">
+          <option value="">Select Patient</option>
+          @for (patient of patients; track $index) {
+            <option [value]="patient.id">
+              {{ patient.name }}
+            </option>
+          }
+        </select>
+      </div>
+      <div class="form-control mt-3">
+        <label for="doctorId">Doctor</label>
+        <select class="form-control" id="doctorId" formControlName="doctorId">
+          <option value="">Select Doctor</option>
+          @for (doctor of doctors; track $index) {
+            <option [value]="doctor.id">
+              {{ doctor.name }}
+            </option>
+          }
+        </select>
+      </div>
+      <div class="form-control mt-3">
+        <label for="notes">Notes</label>
+        <textarea class="form-control" id="notes" formControlName="notes"></textarea>
+      </div>
+      <div class="mt-3 col-md-12">
+        <button type="submit" class="btn btn-primary col-md-6">Add Appointment</button>
+        <button type="button" class="btn btn-danger col-md-6">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
