@@ -8,10 +8,11 @@ import { ToastrService } from 'ngx-toastr';
 import { DatePipe, NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiResponse } from '../../../core/ApiResponse';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-appointment-list-component',
-  imports: [DatePipe, FormsModule, NgClass],
+  imports: [DatePipe, FormsModule, NgClass, RouterLink],
   templateUrl: './appointment-list-component.html',
   styleUrl: './appointment-list-component.css',
 })

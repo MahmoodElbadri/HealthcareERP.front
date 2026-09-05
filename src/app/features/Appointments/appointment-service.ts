@@ -7,6 +7,8 @@ import { PatientDto } from '../Patients/models/patient-dto';
 import { CreateAppointmentDTO } from './models/create-appointment-dto';
 import { ApiResponse } from '../../core/ApiResponse';
 import { AppointmentDTO } from './models/appointment-dto';
+import { SaveExaminationDto } from './models/SaveExaminationDto';
+import { MedicationDto } from './models/MedicationDto';
 
 @Injectable({
   providedIn: 'root',
@@ -37,5 +39,14 @@ export class AppointmentService {
 
   getDoctorAppointments(doctorId: number):Observable<ApiResponse<AppointmentDTO[]>>{
     return this.http.get<ApiResponse<AppointmentDTO[]>>(`${this.apiUrl}/Appointments/Doctor/${doctorId}`);
+  }
+
+  //ExaminationsController/[HttpPost("save-examination")]
+  saveExamination(examination: SaveExaminationDto): Observable<ApiResponse<boolean>>{
+    return this.http.post<ApiResponse<boolean>>(this.apiUrl + '/Examinations/save-examination', examination);
+  }
+
+  getMedications(): Observable<ApiResponse<MedicationDto[]>>{
+    return this.http.get<ApiResponse<MedicationDto[]>>(this.apiUrl + '/Medications/get-all-medications');
   }
 }

@@ -1,0 +1,87 @@
+<div class="appointment-container pt-3 mt-3">
+  <!-- Page header -->
+  <div class="page-header mb-4 px-3">
+    <div class="d-flex justify-content-between align-items-end flex-wrap gap-3">
+      <div>
+        <h1 class="page-title m-0">Examination Form</h1>
+        <nav aria-label="breadcrumb" class="mt-2">
+          <ol class="breadcrumb custom-breadcrumb">
+            <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Home</a></li>
+            <li class="breadcrumb-item active">Examination Form</li>
+          </ol>
+        </nav>
+      </div>
+      <div class="filter-section"></div>
+    </div>
+  </div>
+  <!-- End Page header -->
+
+  <form [formGroup]="diagnosisFormGroup">
+    <div class="row px-3 d-flex justify-content-around">
+      <div class="col-5 card custom-card border-0">
+        <h3>Diagnosis Form</h3>
+
+        <div class="form-group mt-3">
+          <label for="name">Diagnosis Name</label>
+          <input type="text" class="form-control" id="name" formControlName="name" />
+        </div>
+        <div class="form-group mt-3">
+          <label for="description">Description</label>
+          <input type="text" class="form-control" id="description" formControlName="description" />
+        </div>
+      </div>
+      <div class="col-5 card custom-card border-0">
+        <h3>Prescription</h3>
+
+        <div formArrayName="prescription">
+          @for (med of prescriptionFormArray.controls; track $index) {
+            <div [formGroupName]="$index">
+              <div class="form-group mt-3">
+                <label>Medication</label>
+
+                <select class="form-select" formControlName="medicationId">
+                  <option value="">Select Medication</option>
+
+                  @for (medicine of medications; track medicine.id) {
+                    <option [value]="medicine.id">
+                      {{ medicine.name }}
+                    </option>
+                  }
+                </select>
+              </div>
+
+              <div class="form-group mt-3">
+                <label>Dosage</label>
+                <input type="text" class="form-control" formControlName="dosage" />
+              </div>
+
+              <div class="form-group mt-3">
+                <label>Duration In Days</label>
+                <input type="number" class="form-control" formControlName="durationInDays" />
+              </div>
+
+              <div class="form-group mt-3">
+                <label> Instructions</label>
+                <textarea class="form-control" formControlName="instructions" rows="3"></textarea>
+              </div>
+
+              <button type="button" class="btn btn-danger mt-3" (click)="deleteMedicine($index)">
+                <i class="fa-solid fa-trash"></i>
+                Delete Medicine
+              </button>
+            </div>
+          }
+        </div>
+
+        <button type="button" class="btn btn-primary mt-3" (click)="addMedicine()">
+          <i class="fa-solid fa-plus"></i>
+          Add Medicine
+        </button>
+      </div>
+    </div>
+    <button type="button" class="btn btn-primary mt-3" (click)="submitDiagnosis()">
+      <i class="fa-solid fa-check"></i>
+      Submit Diagnosis
+    </button>
+  </form>
+</div>
