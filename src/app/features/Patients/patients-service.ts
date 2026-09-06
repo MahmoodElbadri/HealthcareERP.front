@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { PatientDto } from './models/patient-dto';
 import { ApiResponse } from '../../core/ApiResponse';
+import { AppointmentDTO } from '../Appointments/models/appointment-dto';
+import { PatientHistoryDto } from './models/patient-history-dto';
 
 @Injectable({
   providedIn: 'root',
@@ -33,5 +35,10 @@ export class PatientsService {
 
   deletePatient(id: number): Observable<ApiResponse<boolean>> {
     return this.http.delete<ApiResponse<boolean>>(`${this.apiUrl}/DeletePatient/${id}`);
+  }
+
+  // [HttpGet("get-patient-history/{patientId}")]
+  getPatientHistory(patientId: number): Observable<ApiResponse<PatientHistoryDto[]>> {
+    return this.http.get<ApiResponse<PatientHistoryDto[]>>(`${this.apiUrl}/get-patient-history/${patientId}`);
   }
 }

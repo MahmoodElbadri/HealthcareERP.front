@@ -8,6 +8,7 @@ import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-patient-list-component',
+  standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './patient-list-component.html',
   styleUrl: './patient-list-component.css',

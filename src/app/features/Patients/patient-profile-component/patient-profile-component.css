@@ -1,0 +1,183 @@
+.patient-profile-dashboard {
+  max-width: 1100px;
+}
+
+/* Header Card */
+.patient-header-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+
+}
+
+.avatar-large-circle {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1a1a1a 0%, #343a40 100%);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.patient-title-name {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.gender-pill {
+  background-color: #e9ecef;
+  color: #495057;
+  font-weight: 600;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+}
+
+.id-pill {
+  background-color: #1a1a1a;
+  color: #ffffff;
+  font-weight: 500;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+}
+
+/* Timeline Layout */
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+  margin-top: 1.5rem;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 17px;
+  width: 2px;
+  background: #e0e1e2;
+}
+
+.timeline-item {
+  position: relative;
+}
+
+.timeline-marker {
+  position: absolute;
+  left: -2rem;
+  top: 18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  border: 2px solid #cdcecf;
+  z-index: 2;
+
+}
+
+.timeline-marker.badge-completed {
+  border-color: #4bbf73;
+  color: #4bbf73;
+  background-color: #f0faf3;
+}
+
+.timeline-marker.badge-scheduled {
+  border-color: #1f9bcf;
+  color: #1f9bcf;
+  background-color: #f0f9fc;
+}
+
+.timeline-marker.badge-cancelled {
+  border-color: #d9534f;
+  color: #d9534f;
+  background-color: #fdf2f2;
+}
+
+/* Timeline Card */
+.timeline-card {
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+
+}
+
+.timeline-card:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08) !important;
+
+}
+
+.date-badge {
+  background-color: #f8f9fa;
+  min-width: 60px;
+  border: 1px solid #e0e1e2;
+}
+
+.doctor-name {
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+/* Status Badges */
+.status-badge {
+  display: inline-block;
+  padding: 0.35em 0.8em;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-completed {
+  background-color: #dbf2e3;
+  color: #1e4c2e;
+}
+
+.badge-scheduled {
+  background-color: #d2ebf5;
+  color: #0c3e53;
+}
+
+.badge-cancelled {
+  background-color: #f7dddc;
+  color: #572120;
+}
+
+.badge-secondary {
+  background-color: #e0e1e2;
+  color: #55595c;
+}
+
+/* Prescription Table */
+.prescription-table th {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #6c757d;
+  background-color: #ffffff;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.prescription-table td {
+  padding: 0.6rem 0.5rem;
+}
+
+.empty-history-card {
+  background-color: #ffffff;
+  border-style: dashed !important;
+}
+
+.icon-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -1,0 +1,202 @@
+<div class="container py-5 patient-profile-dashboard">
+  <!-- Back Button & Header Row -->
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <a routerLink="/patients" class="btn btn-outline-secondary btn-sm rounded-pill px-3 d-inline-flex align-items-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+      Back to Patients
+    </a>
+    @if (patientDto) {
+      <a [routerLink]="['/patients/edit-patient', patientDto.id]" class="btn btn-primary btn-sm rounded-pill px-3 d-inline-flex align-items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        Edit Patient
+      </a>
+    }
+  </div>
+
+  @if (patientDto) {
+    <!-- TOP PATIENT HEADER CARD -->
+    <div class="patient-header-card p-4 mb-5 rounded-4 shadow-sm">
+      <div class="d-flex flex-column flex-md-row align-items-md-center gap-4">
+        <!-- Avatar Circle -->
+        <div class="avatar-large-circle shadow-sm">
+          <span>{{ getInitials(patientDto.name) }}</span>
+        </div>
+
+        <!-- Basic Info -->
+        <div class="flex-grow-1">
+          <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+            <h2 class="patient-title-name mb-0">{{ patientDto.name }}</h2>
+            <span class="badge gender-pill">{{ patientDto.gender || 'Not specified' }}</span>
+            <span class="badge id-pill">ID: #{{ patientDto.id }}</span>
+          </div>
+
+          <div class="row g-3 mt-1 patient-info-grid">
+            <div class="col-sm-6 col-md-4">
+              <div class="info-item d-flex align-items-center gap-2 text-muted">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                <span>DOB: <strong>{{ patientDto.dateOfBirth | date:'mediumDate'  }}</strong></span>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-4">
+              <div class="info-item d-flex align-items-center gap-2 text-muted">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                <span>Phone: <strong>{{ patientDto.phoneNumber || 'N/A' }}</strong></span>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-4">
+              <div class="info-item d-flex align-items-center gap-2 text-muted">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                <span>Total Visits: <strong>{{ appointments.length }}</strong></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MEDICAL HISTORY TIMELINE SECTION -->
+    <div class="medical-history-container mt-4">
+      <div class="d-flex align-items-center justify-content-between mb-4 border-bottom pb-3">
+        <div>
+          <h3 class="section-title mb-1">Medical History & Visits Timeline</h3>
+          <p class="text-muted small mb-0">Chronological history of patient consultations and prescriptions</p>
+        </div>
+        <span class="badge bg-light text-dark border px-3 py-2 rounded-pill font-monospace">
+          {{ appointments.length }} {{ appointments.length === 1 ? 'Visit' : 'Visits' }}
+        </span>
+      </div>
+
+      @if (appointments.length > 0) {
+        <div class="timeline">
+          @for (appointment of appointments; track appointment.id) {
+            <div class="timeline-item">
+              <!-- Timeline Dot Marker -->
+              <div class="timeline-marker" [ngClass]="getStatusBadgeClass(appointment.status)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+
+              <!-- Appointment Visit Card -->
+              <div class="card timeline-card shadow-sm border-0 mb-4 rounded-3 overflow-hidden">
+                <div class="card-header bg-white py-3 px-4 d-flex flex-wrap align-items-center justify-content-between gap-2 border-bottom-0">
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="date-badge text-center p-2 rounded-3">
+                      <span class="d-block fw-bold fs-5 text-primary">{{ appointment.appointmentDate | date:'dd' }}</span>
+                      <span class="d-block text-uppercase small text-muted">{{ appointment.appointmentDate | date:'MMM yyyy' }}</span>
+                    </div>
+                    <div>
+                      <h5 class="mb-1 doctor-name">Dr. {{ appointment.doctorName || 'Not Assigned' }}</h5>
+                      <span class="text-muted small d-inline-flex align-items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        Queue #: {{ appointment.queueNumber || 'N/A' }}
+                      </span>
+                    </div>
+                  </div>
+
+                  <!-- Status Badge -->
+                  <span class="status-badge" [ngClass]="getStatusBadgeClass(appointment.status)">
+                    {{ appointment.status }}
+                  </span>
+                </div>
+
+                <div class="card-body px-4 pt-0 pb-4">
+                  <!-- Notes if present -->
+                  @if (appointment.notes) {
+                    <div class="visit-notes p-3 rounded-3 mb-3 bg-light">
+                      <strong class="text-secondary d-block small mb-1">Visit Notes:</strong>
+                      <p class="mb-0 text-dark small">{{ appointment.notes }}</p>
+                    </div>
+                  }
+
+                  <!-- COMPLETED VISIT DETAILS: DIAGNOSIS & PRESCRIPTIONS -->
+                  @if (appointment.status === 'Completed') {
+                    <div class="completed-details-box mt-3 pt-3 border-top">
+                      
+                      <!-- Diagnosis Details -->
+                      @let diagnosis = getDiagnosisForAppointment(appointment.id);
+                      <div class="diagnosis-block mb-3 p-3 rounded-3 border-start border-4 border-primary bg-light">
+                        <div class="d-flex align-items-center gap-2 mb-1">
+                          <svg class="text-primary" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                          <h6 class="mb-0 font-semibold text-uppercase tracking-wider">Diagnosis</h6>
+                        </div>
+                        @if (diagnosis) {
+                          <div class="ps-4">
+                            <span class="fw-bold text-dark d-block">{{ diagnosis.name }}</span>
+                            <span class="text-muted small">{{ diagnosis.description }}</span>
+                          </div>
+                        } @else {
+                          <p class="text-muted small mb-0 ps-4 italic">No specific diagnosis recorded for this visit.</p>
+                        }
+                      </div>
+
+                      <!-- Prescriptions Table -->
+                      @let prescriptions = getPrescriptionsForAppointment(appointment.id);
+                      <div class="prescriptions-block p-3 rounded-3 bg-light border">
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                          <svg class="text-success" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></svg>
+                          <h6 class="mb-0 font-semibold text-uppercase tracking-wider">Prescribed Medications</h6>
+                          <span class="badge bg-success bg-opacity-10 text-success rounded-pill ms-auto small">
+                            {{ prescriptions.length }} {{ prescriptions.length === 1 ? 'item' : 'items' }}
+                          </span>
+                        </div>
+
+                        @if (prescriptions.length > 0) {
+                          <div class="table-responsive mt-2">
+                            <table class="table table-sm table-hover align-middle mb-0 prescription-table">
+                              <thead>
+                                <tr>
+                                  <th scope="col" style="width: 5%">#</th>
+                                  <th scope="col" style="width: 35%">Medication / Drug</th>
+                                  <th scope="col" style="width: 60%">Dosage / Description</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                @for (item of prescriptions; track item.id; let idx = $index) {
+                                  <tr>
+                                    <td class="font-monospace text-muted small">{{ idx + 1 }}</td>
+                                    <td><strong class="text-dark">{{ item.name }}</strong></td>
+                                    <td class="text-muted small">{{ item.description }}</td>
+                                  </tr>
+                                }
+                              </tbody>
+                            </table>
+                          </div>
+                        } @else {
+                          <p class="text-muted small mb-0 ps-1 italic">No prescribed medications for this appointment.</p>
+                        }
+                      </div>
+
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <!-- Empty History State -->
+        <div class="empty-history-card p-5 text-center rounded-4 border border-dashed bg-light">
+          <div class="icon-circle mb-3 mx-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-muted"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <h5 class="fw-bold">No Medical History Found</h5>
+          <p class="text-muted small max-w-md mx-auto">This patient does not have any recorded medical appointments or history in the system yet.</p>
+        </div>
+      }
+    </div>
+
+  } @else if (isLoading) {
+    <!-- Loading State -->
+    <div class="py-5 text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading patient profile...</span>
+      </div>
+      <p class="text-muted mt-3">Fetching patient medical record...</p>
+    </div>
+  } @else {
+    <!-- Patient Not Found -->
+    <div class="alert alert-warning text-center p-4 rounded-3">
+      <h5>Patient Not Found</h5>
+      <p class="mb-0">Unable to retrieve details for the specified patient ID.</p>
+    </div>
+  }
+</div>
