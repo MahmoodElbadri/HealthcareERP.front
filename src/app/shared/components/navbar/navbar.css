@@ -1,0 +1,86 @@
+.main-navbar {
+  background-color: #121417 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
+  z-index: 1050;
+}
+
+.brand-icon-wrapper {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #0d9488 0%, #2563eb 100%);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);
+}
+
+.brand-text {
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+}
+
+.brand-highlight {
+  color: #20c997;
+}
+
+/* Nav links styling */
+.navbar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.75) !important;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.navbar-nav .nav-link.active {
+  color: #ffffff !important;
+  background-color: #0d9488 !important;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(13, 148, 136, 0.3);
+}
+
+.navbar-nav .nav-link svg {
+  transition: transform 0.2s ease;
+}
+
+.navbar-nav .nav-link:hover svg {
+  transform: translateY(-1px);
+}
+
+/* Status Indicator */
+.system-status-pill {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+.status-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #4bbf73;
+  box-shadow: 0 0 0 0 rgba(75, 191, 115, 0.7);
+  animation: pulse-dot 1.8s infinite;
+}
+
+@keyframes pulse-dot {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(75, 191, 115, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 6px rgba(75, 191, 115, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(75, 191, 115, 0);
+  }
+}

@@ -14,6 +14,10 @@ export const routes: Routes = [
         loadChildren: () => import('./features/Appointments/appointments.routes').then((m) => m.APPOINTMENT_ROUTES)
     },
     {
+        path: 'invoices',
+        loadChildren: () => import('./features/Invoices/invoices.routes').then((m) => m.INVOICES_ROUTES)
+    },
+    {
         path: '',
         redirectTo: 'doctors',
         pathMatch: 'full'

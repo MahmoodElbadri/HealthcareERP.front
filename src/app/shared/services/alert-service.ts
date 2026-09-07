@@ -42,14 +42,22 @@ export class AlertService {
     });
   }
 
-  confirm(title: string, text?: string) {
+  confirm(
+    title: string,
+    text?: string,
+    confirmButtonText: string = 'Yes',
+    cancelButtonText: string = 'Cancel',
+    icon: 'warning' | 'question' | 'error' | 'success' | 'info' = 'warning'
+  ) {
     return Swal.fire({
       title,
       text,
-      icon: 'question',
+      icon,
       showCancelButton: true,
-      confirmButtonText: 'Yes',
-      cancelButtonText: 'Cancel'
+      confirmButtonColor: '#0d9488',
+      cancelButtonColor: '#64748b',
+      confirmButtonText,
+      cancelButtonText
     });
   }
 

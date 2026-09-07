@@ -1,0 +1,176 @@
+<div class="container py-5 invoice-dashboard">
+  <!-- Header & Stats Header -->
+  <div class="row align-items-center mb-5">
+    <div class="col-md-6 mb-3 mb-md-0">
+      <h1 class="dashboard-title">Invoices & Billing</h1>
+      <p class="dashboard-subtitle text-muted">Manage patient billing records, track payment statuses, and process payments</p>
+    </div>
+    <div class="col-md-6 d-flex justify-content-md-end gap-3 stats-row">
+      <!-- Total Invoices Stat -->
+      <div class="stat-card">
+        <div class="stat-icon-wrapper blue">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-value">{{ invoices.length }}</span>
+          <span class="stat-label">Total Invoices</span>
+        </div>
+      </div>
+
+      <!-- Pending Payments Stat -->
+      <div class="stat-card">
+        <div class="stat-icon-wrapper warning">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-value text-warning">{{ pendingInvoicesCount }}</span>
+          <span class="stat-label">Pending Payment</span>
+        </div>
+      </div>
+
+      <!-- Total Revenue Stat -->
+      <div class="stat-card">
+        <div class="stat-icon-wrapper teal">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-value text-success">{{ paidInvoicesTotal | currency:'EGP ':'symbol':'1.0-0' }}</span>
+          <span class="stat-label">Total Paid Revenue</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search & Filter Controls -->
+  <div class="filter-bar p-3 mb-4 d-flex flex-column flex-md-row justify-content-between align-items-stretch align-items-md-center gap-3">
+    <div class="d-flex flex-column flex-sm-row gap-3 flex-grow-1">
+      <!-- Search Input -->
+      <div class="search-input-wrapper flex-grow-1">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input 
+          type="text" 
+          class="form-control" 
+          placeholder="Search by Invoice ID or Appointment ID..."
+          [(ngModel)]="searchQuery"
+        />
+      </div>
+
+      <!-- Status Dropdown Filter -->
+      <div class="filter-select-wrapper">
+        <select class="form-select" [(ngModel)]="selectedStatus">
+          <option value="">All Statuses</option>
+          <option value="Pending">Pending</option>
+          <option value="Paid">Paid</option>
+          <option value="Cancelled">Cancelled</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Area -->
+  @if (isLoading) {
+    <!-- Loading State -->
+    <div class="py-5 text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading invoices...</span>
+      </div>
+      <p class="text-muted mt-3">Fetching invoice records...</p>
+    </div>
+  } @else if (filteredInvoices.length > 0) {
+    <!-- INVOICES TABLE -->
+    <div class="table-card p-0 overflow-hidden border-0 shadow-sm rounded-4">
+      <div class="table-responsive">
+        <table class="table invoice-table align-middle mb-0">
+          <thead>
+            <tr>
+              <th scope="col" class="ps-4">Invoice ID</th>
+              <th scope="col">Appointment ID</th>
+              <th scope="col">Total Amount</th>
+              <th scope="col">Issue Date</th>
+              <th scope="col">Payment Date</th>
+              <th scope="col">Status</th>
+              <th scope="col" class="text-end pe-4">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of filteredInvoices; track item.id) {
+              <tr class="table-row-hover">
+                <!-- Invoice ID -->
+                <td class="ps-4">
+                  <span class="fw-bold font-monospace text-dark">#INV-{{ item.id }}</span>
+                </td>
+
+                <!-- Appointment ID -->
+                <td>
+                  <a [routerLink]="['/appointments']" class="text-decoration-none text-muted font-monospace d-inline-flex align-items-center gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    #APT-{{ item.appointmentId }}
+                  </a>
+                </td>
+
+                <!-- Total Amount -->
+                <td>
+                  <strong class="fs-6 text-dark">{{ item.totalAmount | currency:'EGP ':'symbol':'1.2-2' }}</strong>
+                </td>
+
+                <!-- Issue Date -->
+                <td>
+                  <span class="text-muted small">{{ item.issueDate | date:'mediumDate' }}</span>
+                </td>
+
+                <!-- Payment Date -->
+                <td>
+                  @if (item.paymentDate && (item.status === 'Paid' || item.status === 'paid' || item.status === '1')) {
+                    <span class="text-muted small">{{ item.paymentDate | date:'mediumDate' }}</span>
+                  } @else {
+                    <span class="text-muted small">—</span>
+                  }
+                </td>
+
+                <!-- Status Badge -->
+                <td>
+                  <span class="status-badge" [ngClass]="getStatusBadgeClass(item.status)">
+                    {{ getStatusLabel(item.status) }}
+                  </span>
+                </td>
+
+                <!-- Action Button -->
+                <td class="text-end pe-4">
+                  @if (item.status === 'Pending' || item.status === 'pending' || item.status === '0') {
+                    <button 
+                      type="button"
+                      class="btn btn-sm btn-success text-white rounded-pill px-3 py-1 font-semibold d-inline-flex align-items-center gap-1 shadow-sm hover-scale"
+                      (click)="confirmPayInvoice(item)"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                      Pay Invoice
+                    </button>
+                  } @else if (item.status === 'Paid' || item.status === 'paid' || item.status === '1') {
+                    <span class="text-success d-inline-flex align-items-center gap-1 small font-semibold">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                      Paid
+                    </span>
+                  } @else {
+                    <span class="text-muted small">—</span>
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  } @else {
+    <!-- Empty State -->
+    <div class="empty-state-card py-5 text-center d-flex flex-column align-items-center justify-content-center rounded-4 border bg-light">
+      <div class="empty-state-illustration mb-3">
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-muted"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+      </div>
+      <h4 class="empty-state-title fw-bold">No Invoices Found</h4>
+      <p class="empty-state-description text-muted">There are no invoice records matching your current filter criteria.</p>
+      <button class="btn btn-outline-dark btn-sm rounded-pill mt-2" (click)="searchQuery = ''; selectedStatus = ''">
+        Reset Search Filters
+      </button>
+    </div>
+  }
+</div>
