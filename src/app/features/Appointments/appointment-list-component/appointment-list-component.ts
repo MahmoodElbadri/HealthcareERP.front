@@ -9,10 +9,11 @@ import { DatePipe, NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiResponse } from '../../../core/ApiResponse';
 import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-appointment-list-component',
-  imports: [DatePipe, FormsModule, NgClass, RouterLink],
+  imports: [DatePipe, FormsModule, NgClass, RouterLink, TranslatePipe],
   templateUrl: './appointment-list-component.html',
   styleUrl: './appointment-list-component.css',
 })

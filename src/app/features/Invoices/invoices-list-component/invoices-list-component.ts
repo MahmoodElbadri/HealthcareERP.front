@@ -6,11 +6,12 @@ import { InvoiceDto } from '../models/invoice-dto';
 import { InvoiceService } from '../invoice-service';
 import { AlertService } from '../../../shared/services/alert-service';
 import { ToastrService } from 'ngx-toastr';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-invoices-list-component',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, TranslatePipe],
   templateUrl: './invoices-list-component.html',
   styleUrl: './invoices-list-component.css',
 })

@@ -3,23 +3,23 @@
   <div class="page-header mb-4 px-3">
     <div class="d-flex justify-content-between align-items-end flex-wrap gap-3">
       <div>
-        <h1 class="page-title m-0">Appointment List</h1>
+        <h1 class="page-title m-0">{{ 'Appointments.AppointmentList' | translate }}</h1>
         <nav aria-label="breadcrumb" class="mt-2">
           <ol class="breadcrumb custom-breadcrumb">
-            <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Home</a></li>
-            <li class="breadcrumb-item active">Appointment List</li>
+            <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">{{ 'Appointments.Home' | translate }}</a></li>
+            <li class="breadcrumb-item active">{{ 'Appointments.AppointmentList' | translate }}</li>
           </ol>
         </nav>
       </div>
       <div class="filter-section">
         <div class="form-floating shadow-sm custom-floating">
           <select [(ngModel)]="selectedDoctor" (change)="onChange()" class="form-select custom-select" name="doctor" id="doctor">
-            <option value="">All Doctors</option>
+            <option value="">{{ 'Appointments.AllDoctors' | translate }}</option>
             @for (doctor of doctors; track $index) {
               <option value="{{doctor.id}}">{{doctor.name}}</option>
             }
           </select>
-          <label for="doctor">Filter by Doctor</label>
+          <label for="doctor">{{ 'Appointments.FilterByDoctor' | translate }}</label>
         </div>
       </div>
     </div>
@@ -30,19 +30,19 @@
     <div class="col-12">
       <div class="card custom-card border-0 shadow-lg fade-in-up">
         <div class="card-header bg-transparent border-0 pt-4 pb-0 px-4">
-          <h2 class="card-title h4 mb-0">Appointments Overview</h2>
+          <h2 class="card-title h4 mb-0">{{ 'Appointments.AppointmentsOverview' | translate }}</h2>
         </div>
         <div class="card-body p-4">
           <div class="table-responsive">
             <table class="table custom-table align-middle">
               <thead>
                 <tr>
-                  <th>Queue Number</th>
-                  <th>Date</th>
-                  <th>Patient</th>
-                  <th>Doctor</th>
-                  <th>Status</th>
-                  <th>Actions</th>
+                  <th>{{ 'Appointments.QueueNumber' | translate }}</th>
+                  <th>{{ 'Appointments.Date' | translate }}</th>
+                  <th>{{ 'Appointments.Patient' | translate }}</th>
+                  <th>{{ 'Appointments.Doctor' | translate }}</th>
+                  <th>{{ 'Appointments.Status' | translate }}</th>
+                  <th>{{ 'Appointments.Actions' | translate }}</th>
                 </tr>
               </thead>
               <tbody>
@@ -80,7 +80,7 @@
             @if (appointments.length === 0) {
               <div class="text-center py-5 empty-state">
                  <i class="bi bi-inbox fs-1 text-muted mb-3 d-block"></i>
-                 <p class="text-muted fs-5">No appointments found</p>
+                 <p class="text-muted fs-5">{{ 'Appointments.NoAppointmentsFound' | translate }}</p>
               </div>
             }
           </div>

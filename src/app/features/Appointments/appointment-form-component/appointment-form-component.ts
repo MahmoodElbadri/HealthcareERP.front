@@ -7,10 +7,11 @@ import { ApiResponse } from '../../../core/ApiResponse';
 import { AppointmentDTO } from '../models/appointment-dto';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-appointment-form-component',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, TranslatePipe],
   templateUrl: './appointment-form-component.html',
   styleUrl: './appointment-form-component.css',
 })

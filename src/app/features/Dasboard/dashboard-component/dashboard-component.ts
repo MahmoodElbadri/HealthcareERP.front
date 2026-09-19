@@ -4,10 +4,11 @@ import { BaseChartDirective } from 'ng2-charts';
 import { ChartData, ChartOptions } from 'chart.js';
 import { DashboardStatsDto } from '../models/dashboard-stats-dto';
 import { DashboardService } from '../dashboard-service';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dashboard-component',
-  imports: [CurrencyPipe, BaseChartDirective],
+  imports: [CurrencyPipe, BaseChartDirective, TranslatePipe],
   templateUrl: './dashboard-component.html',
   styleUrl: './dashboard-component.css',
 })

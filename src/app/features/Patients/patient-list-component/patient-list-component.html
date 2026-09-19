@@ -2,8 +2,8 @@
   <!-- Header & Stats Header -->
   <div class="row align-items-center mb-5">
     <div class="col-md-6 mb-3 mb-md-0">
-      <h1 class="dashboard-title">Patients Directory</h1>
-      <p class="dashboard-subtitle text-muted">Manage and view the patients active in the system</p>
+      <h1 class="dashboard-title">{{ 'Patients.PatientsDirectory' | translate }}</h1>
+      <p class="dashboard-subtitle text-muted">{{ 'Patients.ManageAndViewPatients' | translate }}</p>
     </div>
     <div class="col-md-6 d-flex justify-content-md-end gap-3 stats-row">
       <!-- Total Patients Stat Card -->
@@ -13,7 +13,7 @@
         </div>
         <div class="stat-info">
           <span class="stat-value">{{ patients.length }}</span>
-          <span class="stat-label">Total Patients</span>
+          <span class="stat-label">{{ 'Patients.TotalPatients' | translate }}</span>
         </div>
       </div>
     </div>
@@ -28,7 +28,7 @@
         <input 
           type="text" 
           class="form-control" 
-          placeholder="Search by name, phone..."
+          [placeholder]="'Patients.SearchPlaceholder' | translate"
           [(ngModel)]="searchQuery"
         />
       </div>
@@ -36,7 +36,7 @@
       <!-- Gender Dropdown Filter -->
       <div class="filter-select-wrapper">
         <select class="form-select" [(ngModel)]="selectedGender">
-          <option value="">All Genders</option>
+          <option value="">{{ 'Patients.AllGenders' | translate }}</option>
           @for (gender of getUniqueGenders(); track gender) {
             <option [value]="gender">{{ gender }}</option>
           }
@@ -46,14 +46,14 @@
 
     <!-- Layout Toggle Switcher -->
     <div class="d-flex align-items-center gap-2 justify-content-end">
-      <span class="text-muted d-none d-sm-inline me-1 text-uppercase small tracking-wide">Layout</span>
+      <span class="text-muted d-none d-sm-inline me-1 text-uppercase small tracking-wide">{{ 'Patients.Layout' | translate }}</span>
       <div class="btn-group view-toggle-group" role="group">
         <button 
           type="button" 
           class="btn btn-outline-light d-flex align-items-center justify-content-center"
           [class.active]="viewMode === 'grid'"
           (click)="viewMode = 'grid'"
-          title="Grid View"
+          [title]="'Patients.GridView' | translate"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
         </button>
@@ -62,7 +62,7 @@
           class="btn btn-outline-light d-flex align-items-center justify-content-center"
           [class.active]="viewMode === 'table'"
           (click)="viewMode = 'table'"
-          title="Table View"
+          [title]="'Patients.TableView' | translate"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
         </button>
@@ -83,12 +83,12 @@
                 <div class="avatar-circle">
                   <span>{{ getInitials(patient.name) }}</span>
                 </div>
-                <span class="gender-badge">{{ patient.gender || 'Not specified' }}</span>
+                <span class="gender-badge">{{ patient.gender ? patient.gender : ('Patients.NotSpecified' | translate) }}</span>
               </div>
               
               <div class="patient-card-body mt-4">
                 <h3 class="patient-name">{{ patient.name }}</h3>
-                <p class="patient-role text-muted">Born: {{ patient.dateOfBirth }}</p>
+                <p class="patient-role text-muted">{{ 'Patients.Born' | translate }} {{ patient.dateOfBirth }}</p>
                 
                 <hr class="card-divider">
                 
@@ -96,16 +96,16 @@
                   <div class="contact-icon-wrapper">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                   </div>
-                  <span class="phone-number">{{ patient.phoneNumber || 'No phone recorded' }}</span>
+                  <span class="phone-number">{{ patient.phoneNumber ? patient.phoneNumber : ('Patients.NoPhoneRecorded' | translate) }}</span>
                 </div>
               </div>
               
               <div class="patient-card-footer mt-4 d-flex justify-content-between align-items-center gap-2">
                 <a class="btn btn-sm btn-primary text-white rounded-pill px-3 py-1 font-semibold text-decoration-none shadow-sm" [routerLink]="['/patients/profile', patient.id]">
-                  View Profile
+                  {{ 'Patients.ViewProfile' | translate }}
                 </a>
                 <a class="btn btn-sm btn-link text-uppercase tracking-wider px-0 py-1 font-semibold text-primary decoration-none hover-move-right" [routerLink]="['/patients/edit-patient', patient.id]">
-                  Update Details <span class="arrow-symbol">→</span>
+                  {{ 'Patients.UpdateDetails' | translate }} <span class="arrow-symbol">→</span>
                 </a>
               </div>
             </div>
@@ -121,12 +121,12 @@
           <table class="table patient-table align-middle mb-0">
             <thead>
               <tr>
-                <th scope="col" class="ps-4">No.</th>
-                <th scope="col">Patient Name</th>
-                <th scope="col">DOB</th>
-                <th scope="col">Gender</th>
-                <th scope="col">Phone Contact</th>
-                <th scope="col" class="text-end pe-4">Actions</th>
+                <th scope="col" class="ps-4">{{ 'Patients.No' | translate }}</th>
+                <th scope="col">{{ 'Patients.PatientName' | translate }}</th>
+                <th scope="col">{{ 'Patients.DOB' | translate }}</th>
+                <th scope="col">{{ 'Patients.Gender' | translate }}</th>
+                <th scope="col">{{ 'Patients.PhoneContact' | translate }}</th>
+                <th scope="col" class="text-end pe-4">{{ 'Patients.Actions' | translate }}</th>
               </tr>
             </thead>
             <tbody>
@@ -148,7 +148,7 @@
                     <span class="text-muted">{{ patient.dateOfBirth }}</span>
                   </td>
                   <td>
-                    <span class="gender-badge-table">{{ patient.gender || 'Not specified' }}</span>
+                    <span class="gender-badge-table">{{ patient.gender ? patient.gender : ('Patients.NotSpecified' | translate) }}</span>
                   </td>
                   <td>
                     <div class="d-flex align-items-center gap-2">
@@ -159,10 +159,10 @@
                   <td class="text-end pe-4">
                     <div class="d-flex justify-content-end gap-2">
                       <a class="btn btn-sm btn-primary text-white rounded-pill px-3 py-1 font-semibold text-decoration-none shadow-sm" [routerLink]="['/patients/profile', patient.id]">
-                        View Profile
+                        {{ 'Patients.ViewProfile' | translate }}
                       </a>
                       <button class="btn btn-sm btn-outline-dark text-uppercase tracking-wider px-3 py-1 font-semibold" [routerLink]="['/patients/edit-patient', patient.id]">
-                        Manage
+                        {{ 'Patients.Manage' | translate }}
                       </button>
                     </div>
                   </td>
@@ -175,8 +175,8 @@
     }
 
     <div class="d-flex justify-content-end gap-2">
-      <a class="col-md-6 mt-4 btn btn-primary" [routerLink]="['/patients/add-patient']">Add Patient</a>
-      <button class="col-md-6 mt-4 btn btn-primary" routerLink="/">Back</button>
+      <a class="col-md-6 mt-4 btn btn-primary" [routerLink]="['/patients/add-patient']">{{ 'Patients.AddPatient' | translate }}</a>
+      <button class="col-md-6 mt-4 btn btn-primary" routerLink="/">{{ 'Patients.Back' | translate }}</button>
     </div>
 
   } @else {
@@ -184,10 +184,10 @@
       <div class="empty-state-illustration mb-4">
         <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-muted"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
       </div>
-      <h3 class="empty-state-title">No Patients Found</h3>
-      <p class="empty-state-description text-muted">We couldn't find any patient matching your search filters.</p>
+      <h3 class="empty-state-title">{{ 'Patients.NoPatientsFound' | translate }}</h3>
+      <p class="empty-state-description text-muted">{{ 'Patients.NoPatientMatchingFilters' | translate }}</p>
       <button class="btn btn-dark text-uppercase mt-2" (click)="searchQuery = ''; selectedGender = ''">
-        Reset All Filters
+        {{ 'Patients.ResetAllFilters' | translate }}
       </button>
     </div>
   }

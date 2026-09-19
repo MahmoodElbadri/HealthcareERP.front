@@ -2,8 +2,8 @@
   <!-- Header & Stats Header -->
   <div class="row align-items-center mb-5">
     <div class="col-md-6 mb-3 mb-md-0">
-      <h1 class="dashboard-title">Invoices & Billing</h1>
-      <p class="dashboard-subtitle text-muted">Manage patient billing records, track payment statuses, and process payments</p>
+      <h1 class="dashboard-title">{{ 'Invoices.InvoicesAndBilling' | translate }}</h1>
+      <p class="dashboard-subtitle text-muted">{{ 'Invoices.ManageInvoices' | translate }}</p>
     </div>
     <div class="col-md-6 d-flex justify-content-md-end gap-3 stats-row">
       <!-- Total Invoices Stat -->
@@ -13,7 +13,7 @@
         </div>
         <div class="stat-info">
           <span class="stat-value">{{ invoices.length }}</span>
-          <span class="stat-label">Total Invoices</span>
+          <span class="stat-label">{{ 'Invoices.TotalInvoices' | translate }}</span>
         </div>
       </div>
 
@@ -24,7 +24,7 @@
         </div>
         <div class="stat-info">
           <span class="stat-value text-warning">{{ pendingInvoicesCount }}</span>
-          <span class="stat-label">Pending Payment</span>
+          <span class="stat-label">{{ 'Invoices.PendingPayment' | translate }}</span>
         </div>
       </div>
 
@@ -35,7 +35,7 @@
         </div>
         <div class="stat-info">
           <span class="stat-value text-success">{{ paidInvoicesTotal | currency:'EGP ':'symbol':'1.0-0' }}</span>
-          <span class="stat-label">Total Paid Revenue</span>
+          <span class="stat-label">{{ 'Invoices.TotalPaidRevenue' | translate }}</span>
         </div>
       </div>
     </div>
@@ -50,7 +50,7 @@
         <input 
           type="text" 
           class="form-control" 
-          placeholder="Search by Invoice ID or Appointment ID..."
+          [placeholder]="'Invoices.SearchPlaceholder' | translate"
           [(ngModel)]="searchQuery"
         />
       </div>
@@ -58,10 +58,10 @@
       <!-- Status Dropdown Filter -->
       <div class="filter-select-wrapper">
         <select class="form-select" [(ngModel)]="selectedStatus">
-          <option value="">All Statuses</option>
-          <option value="Pending">Pending</option>
-          <option value="Paid">Paid</option>
-          <option value="Cancelled">Cancelled</option>
+          <option value="">{{ 'Invoices.AllStatuses' | translate }}</option>
+          <option value="Pending">{{ 'Invoices.Pending' | translate }}</option>
+          <option value="Paid">{{ 'Invoices.Paid' | translate }}</option>
+          <option value="Cancelled">{{ 'Invoices.Cancelled' | translate }}</option>
         </select>
       </div>
     </div>
@@ -72,9 +72,9 @@
     <!-- Loading State -->
     <div class="py-5 text-center">
       <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Loading invoices...</span>
+        <span class="visually-hidden">{{ 'Invoices.LoadingInvoices' | translate }}</span>
       </div>
-      <p class="text-muted mt-3">Fetching invoice records...</p>
+      <p class="text-muted mt-3">{{ 'Invoices.FetchingRecords' | translate }}</p>
     </div>
   } @else if (filteredInvoices.length > 0) {
     <!-- INVOICES TABLE -->
@@ -83,24 +83,24 @@
         <table class="table invoice-table align-middle mb-0">
           <thead>
             <tr>
-              <th scope="col" class="ps-4">Invoice ID</th>
-              <th scope="col">Appointment ID</th>
-              <th scope="col">Total Amount</th>
-              <th scope="col">Issue Date</th>
-              <th scope="col">Payment Date</th>
-              <th scope="col">Status</th>
-              <th scope="col" class="text-end pe-4">Action</th>
+              <th scope="col" class="ps-4">{{ 'Invoices.InvoiceID' | translate }}</th>
+              <th scope="col">{{ 'Invoices.AppointmentID' | translate }}</th>
+              <th scope="col">{{ 'Invoices.TotalAmount' | translate }}</th>
+              <th scope="col">{{ 'Invoices.IssueDate' | translate }}</th>
+              <th scope="col">{{ 'Invoices.PaymentDate' | translate }}</th>
+              <th scope="col">{{ 'Invoices.Status' | translate }}</th>
+              <th scope="col" class="text-end pe-4">{{ 'Invoices.Action' | translate }}</th>
             </tr>
           </thead>
           <tbody>
             @for (item of filteredInvoices; track item.id) {
               <tr class="table-row-hover">
-                <!-- Invoice ID -->
+                <!-- {{ 'Invoices.InvoiceID' | translate }} -->
                 <td class="ps-4">
                   <span class="fw-bold font-monospace text-dark">#INV-{{ item.id }}</span>
                 </td>
 
-                <!-- Appointment ID -->
+                <!-- {{ 'Invoices.AppointmentID' | translate }} -->
                 <td>
                   <a [routerLink]="['/appointments']" class="text-decoration-none text-muted font-monospace d-inline-flex align-items-center gap-1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
@@ -108,17 +108,17 @@
                   </a>
                 </td>
 
-                <!-- Total Amount -->
+                <!-- {{ 'Invoices.TotalAmount' | translate }} -->
                 <td>
                   <strong class="fs-6 text-dark">{{ item.totalAmount | currency:'EGP ':'symbol':'1.2-2' }}</strong>
                 </td>
 
-                <!-- Issue Date -->
+                <!-- {{ 'Invoices.IssueDate' | translate }} -->
                 <td>
                   <span class="text-muted small">{{ item.issueDate | date:'mediumDate' }}</span>
                 </td>
 
-                <!-- Payment Date -->
+                <!-- {{ 'Invoices.PaymentDate' | translate }} -->
                 <td>
                   @if (item.paymentDate && (item.status === 'Paid' || item.status === 'paid' || item.status === '1')) {
                     <span class="text-muted small">{{ item.paymentDate | date:'mediumDate' }}</span>
@@ -127,14 +127,14 @@
                   }
                 </td>
 
-                <!-- Status Badge -->
+                <!-- {{ 'Invoices.Status' | translate }} Badge -->
                 <td>
                   <span class="status-badge" [ngClass]="getStatusBadgeClass(item.status)">
                     {{ getStatusLabel(item.status) }}
                   </span>
                 </td>
 
-                <!-- Action Button -->
+                <!-- {{ 'Invoices.Action' | translate }} Button -->
                 <td class="text-end pe-4">
                   @if (item.status === 'Pending' || item.status === 'pending' || item.status === '0') {
                     <button 
@@ -143,7 +143,7 @@
                       (click)="confirmPayInvoice(item)"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-                      Pay Invoice
+                      {{ 'Invoices.PayInvoice' | translate }}
                     </button>
                   } @else if (item.status === 'Paid' || item.status === 'paid' || item.status === '1') {
                     <span class="text-success d-inline-flex align-items-center gap-1 small font-semibold">
@@ -166,10 +166,10 @@
       <div class="empty-state-illustration mb-3">
         <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-muted"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
       </div>
-      <h4 class="empty-state-title fw-bold">No Invoices Found</h4>
-      <p class="empty-state-description text-muted">There are no invoice records matching your current filter criteria.</p>
+      <h4 class="empty-state-title fw-bold">{{ 'Invoices.NoInvoicesFound' | translate }}</h4>
+      <p class="empty-state-description text-muted">{{ 'Invoices.NoInvoicesMatchingFilters' | translate }}</p>
       <button class="btn btn-outline-dark btn-sm rounded-pill mt-2" (click)="searchQuery = ''; selectedStatus = ''">
-        Reset Search Filters
+        {{ 'Invoices.ResetSearchFilters' | translate }}
       </button>
     </div>
   }

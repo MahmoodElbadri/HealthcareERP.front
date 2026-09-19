@@ -5,11 +5,12 @@ import { PatientsService } from '../patients-service';
 import { PatientDto } from '../models/patient-dto';
 import { ApiResponse } from '../../../core/ApiResponse';
 import { RouterLink } from "@angular/router";
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-patient-list-component',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, TranslatePipe],
   templateUrl: './patient-list-component.html',
   styleUrl: './patient-list-component.css',
 })

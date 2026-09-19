@@ -5,10 +5,11 @@ import { DoctorsService } from '../doctors-service';
 import { DoctorDto } from '../models/DoctorDto';
 import { ApiResponse } from '../../../core/ApiResponse';
 import { RouterLink } from "@angular/router";
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-doctor-list-component',
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, TranslatePipe],
   templateUrl: './doctor-list-component.html',
   styleUrl: './doctor-list-component.css',
 })
