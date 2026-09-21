@@ -1,7 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslateService, TranslatePipe, TranslateDirective } from '@ngx-translate/core';
+import { AuthService } from '../../../core/auth/services/auth-service';
+import { AlertService } from '../../services/alert-service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,13 +12,22 @@ import { TranslateService, TranslatePipe, TranslateDirective } from '@ngx-transl
   templateUrl: './navbar.html',
   styleUrl: './navbar.css'
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit{
   isMenuCollapsed = true;
+  private authService = inject(AuthService);
+ protected isLoggedIn = this.authService.isLoggedIn;
+  protected isAdmin = this.authService.isAdmin;
+  protected isDoctor = this.authService.isDoctor;
+  protected isPatient = this.authService.isPatient;
+  
+  private router = inject(Router);
+  private alertService = inject(AlertService);
+  public translate = inject(TranslateService);
 
   toggleMenu() {
     this.isMenuCollapsed = !this.isMenuCollapsed;
   }
-  public translate = inject(TranslateService);
+
 
   constructor() {
     // تحديد اللغة الافتراضية
@@ -27,6 +38,11 @@ export class NavbarComponent {
     this.useLanguage(savedLang);
   }
 
+  ngOnInit(): void {
+  }
+
+
+
   useLanguage(language: string) {
     this.translate.use(language);
     localStorage.setItem('lang', language);
@@ -35,5 +51,11 @@ export class NavbarComponent {
     const htmlTag = document.dir;
     document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
     document.documentElement.lang = language;
+  }
+
+  logout() {
+    this.authService.logout();
+    this.alertService.toastSuccess('Logged out successfully !');
+    this.router.navigate(['/auth']);
   }
 }

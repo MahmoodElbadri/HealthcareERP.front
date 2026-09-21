@@ -132,5 +132,33 @@
         "NoPatientsFound": "No Patients Found",
         "NoPatientMatchingFilters": "We couldn't find any patient matching your search filters.",
         "ResetAllFilters": "Reset All Filters"
+    },
+    "Auth": {
+        "PortalTitle": "Healthcare ERP",
+        "PortalSubtitle": "Integrated Hospital & Clinical Management System",
+        "WelcomeBack": "Welcome Back",
+        "SignInPrompt": "Enter your credentials to access your portal",
+        "EmailAddress": "Email Address",
+        "EmailPlaceholder": "name@hospital.com",
+        "Password": "Password",
+        "PasswordPlaceholder": "Enter your password",
+        "RememberMe": "Remember this device",
+        "ForgotPassword": "Forgot password?",
+        "SignIn": "Sign In",
+        "SigningIn": "Signing In...",
+        "EmailRequired": "Email address is required",
+        "EmailInvalid": "Please enter a valid email address",
+        "EmailMinLength": "Email must be at least 5 characters",
+        "PasswordRequired": "Password is required",
+        "PasswordMinLength": "Password must be at least 5 characters",
+        "SecureEncryption": "HIPAA Compliant • 256-Bit SSL Encrypted",
+        "QuickDemo": "Demo Profiles",
+        "Admin": "Admin",
+        "Doctor": "Doctor",
+        "Patient": "Patient",
+        "HeroTagline": "Empowering Healthcare Teams With Precision Care",
+        "Feature1": "Secure Electronic Health Records",
+        "Feature2": "Automated Appointments & Queues",
+        "Feature3": "Comprehensive Invoicing & Analytics"
     }
 }
