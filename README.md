@@ -1,59 +1,95 @@
-# HealthcareERPFront
+### This is the Frontend Project, Backend will be found at `https://github.com/MahmoodElbadri/Healthcare-ERP.api`
+# Healthcare ERP System 🏥
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.31.
+A comprehensive, enterprise-grade Healthcare Enterprise Resource Planning (ERP) application designed to streamline medical facility operations. This system manages the complete patient lifecycle, from appointment scheduling and medical examinations to automated billing and interactive administrative dashboards.
 
-## Development server
+## 🌟 Core Features & Modules
 
-To start a local development server, run:
+* **Role-Based Access Control (RBAC):** Secure JWT authentication with distinct portals for Admins, Doctors, and Receptionists.
+* **Patient & Medical History Management:** Detailed patient records featuring a chronological timeline of past visits, diagnoses, and prescribed medications.
+* **Smart Appointment Scheduling:** Automated queue number generation, daily capacity limits, and real-time status tracking (Scheduled, Completed, Cancelled).
+* **Clinical Examination Workflow:** Dynamic electronic prescription building (FormArrays) and diagnosis recording.
+* **Automated Billing & Invoicing:** Auto-generation of pending invoices upon appointment completion, with seamless payment collection workflows.
+* **Interactive Admin Dashboard:** Live KPIs, revenue tracking, and analytics using `Chart.js` (Top prescribed medications, appointment distribution).
+* **Automated Background Jobs:** Integration with `Hangfire` to proactively process missed appointments and cancel pending invoices at midnight.
+* **Bilingual & RTL Support:** Instant language switching (English/Arabic) with dynamic Right-to-Left layout adjustments using `ngx-translate`.
+* **Enterprise-Grade Logging:** Structured global exception handling and daily rolling log files managed by `Serilog`.
 
+## 🛠️ Tech Stack
+
+### Frontend (Client-Side)
+
+* **Framework:** Angular 18+ (Standalone Components, Reactive Forms, Signals)
+* **Styling & UI:** Bootstrap 5, FontAwesome, custom CSS/SCSS
+* **Charting:** `ng2-charts` & `Chart.js`
+* **Internationalization:** `ngx-translate`
+* **Routing:** Angular Router with AuthGuards & RoleGuards
+
+### Backend (Server-Side)
+
+* **Framework:** .NET 8 (ASP.NET Core Web API)
+* **Database & ORM:** SQL Server, Entity Framework Core
+* **Authentication:** ASP.NET Core Identity, JWT Bearer Tokens
+* **Task Scheduling:** Hangfire
+* **Logging:** Serilog (Console & Rolling File Sinks)
+* **Object Mapping:** AutoMapper
+
+## 📐 Architecture & Design Patterns
+
+The backend is structured to ensure maintainability, testability, and separation of concerns:
+
+* **N-Tier Architecture Approach:** Separation of Core, Application, Infrastructure, and API layers.
+* **Repository & Unit of Work Patterns:** Centralized data access logic and transaction management to prevent partial database updates (Cartesian explosion handling).
+* **Data Transfer Objects (DTOs):** Strict payload isolation between database entities and API responses.
+* **Global Exception Handling:** Custom Middlewares to catch unhandled errors, ensuring uniform JSON error responses and silent logging.
+* **Defensive Programming:** Optimized LINQ queries (`SumAsync`, `CountAsync`, decoupled Eager Loading) to maximize performance and minimize database load.
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+* Node.js (v18+)
+* Angular CLI
+* .NET 8 SDK
+* SQL Server
+
+### Backend Setup
+
+1. Clone the repository and navigate to the API directory.
+2. Update the `DefaultConnection` string in `appsettings.json`.
+3. Open the Package Manager Console and apply migrations:
+```bash
+Update-Database
+
+```
+
+
+4. Run the application (This will automatically seed the default Admin, Doctor, and Receptionist roles/users).
+5. The Hangfire dashboard will be available at `/hangfire`.
+
+### Frontend Setup
+
+1. Navigate to the client directory.
+2. Install dependencies:
+```bash
+npm install
+
+```
+
+
+3. Start the development server:
 ```bash
 ng serve
+
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
-## Code scaffolding
+4. Open `http://localhost:4200` in your browser.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+---
 
-```bash
-ng generate component component-name
-```
+*Developed with a focus on code quality, edge-case prevention, and scalable architecture by Mahmoud Salah Elbadri.*
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
-```
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
